@@ -35,7 +35,7 @@ async function connectToDatabase() {
     try {
         const client = await MongoClient.connect('mongodb://127.0.0.1:27017', { useUnifiedTopology: true });
         console.log('Connected to MongoDB');
-        db = client.db('TravellingWebsiteDB');
+        db = client.db('myDB'); // Must be myDB to match project requirements.
     } catch (err) {
         console.error('Failed to connect to MongoDB:', err);
     }
@@ -94,7 +94,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Find user in the database
-    const user = await db.collection('Users').findOne({ username });
+    const user = await db.collection('myCollection').findOne({ username }); // Must be myCollection to match project requirements.
 
     // Check if the username or password is empty
     if (!username || !password) {
