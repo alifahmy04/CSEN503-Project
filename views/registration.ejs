@@ -62,19 +62,20 @@
             <input type="submit" id="simple_click" class="btn btn-secondary" value="Register"> <br>
         </form>
     </div>
+
     <!-- Display error message if exists -->
-    <% if (typeof errorMessage !== 'undefined' && errorMessage.length > 0){ %>
-        <div class="error-message" id="error-message">
-            <%= errorMessage %>
-        </div>
+    <% if (errorMessage) { %>
+        <div class="error-message" id="error-message"><%= errorMessage %></div>
         <script>
-            const errorMessage = document.getElementById("error-message");
-            errorMessage.style.display = "block";
+            const errorDiv = document.getElementById("error-message");
+            errorDiv.style.display = "block";
             setTimeout(function() {
-                errorMessage.style.display = "none";
-            }, 2500); 
+                errorDiv.style.display = "none";
+                errorDiv.textContent = "";
+            }, 1500);
         </script>
     <% } %>
+
 </body>
 
 </html>
