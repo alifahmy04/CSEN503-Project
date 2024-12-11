@@ -54,11 +54,13 @@ connectToDatabase();
 
 
 
-
+//this is for the backbutton
 app.use((req, res, next) => {
     res.locals.backUrl = req.get('referrer') || '/home'; // Default to home if no referrer
     next();
 });
+//referrer gets the most previous page
+
 
 // Routes
 app.get('/', function(req, res) {
