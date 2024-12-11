@@ -24,6 +24,14 @@ app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
 
+const locations = [
+    { id: 'inca', label: 'Inca Trail to Machu Picchu' },
+    { id: 'annapurna', label: 'Annapurna Circuit' },
+    { id: 'paris', label: 'Paris' },
+    { id: 'rome', label: 'Rome' },
+    { id: 'bali', label: 'Bali Island' },
+    { id: 'santorini', label: 'Santorini Island' }
+];
 
 
 // Connect to MongoDB
@@ -45,6 +53,8 @@ connectToDatabase();
 
 
 
+
+
 // WARNING : when handling the get of any page, check first if there is a user logged in or not through this:
 // if (req.session.user)
 //     return res.redirect('/home');   session exists --> allow to go to the target page (there is a user logged in, so he can do whatever he wants)
@@ -52,7 +62,12 @@ connectToDatabase();
 
 
 
-
+//this is for the backbutton
+app.use((req, res, next) => {
+    res.locals.backUrl = req.get('referrer') || '/home'; // Default to home if no referrer
+    next();
+});
+//referrer gets the most previous page
 
 
 // Routes
@@ -225,6 +240,18 @@ app.get('/santorini', function(req, res) {
     res.redirect('/');
 });
 
+app.get('/search', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    if (req.session.user) {
+        res.render('home');
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
+
 
 
 // login endpoint (Button Action)
@@ -292,6 +319,30 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.post('/search', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    if (!req.session.user) {
+        res.redirect('/');
+    }
+    else {
+        searchQuery = req.body.Search.toLowerCase();
+        if (searchQuery.length === 0) {
+            return;
+        }
+        results = [];
+        for (let i = 0; i < locations.length; i++) {
+            if (locations[i].label.toLowerCase().includes(searchQuery)) {
+                results.push(locations[i]);
+            }
+        }
+        res.render('test', {locations: results})
+    }
+});
+
+app.get('/test', (req, res) => {
+    res.render('test', { locations });
+});
 
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {

@@ -7,7 +7,9 @@
             background-repeat: no-repeat;
             background-size: 100%;
         }
-
+        .back-button{
+            padding-right: 7.5px;
+        }
         h1 {
             color: white;
             text-align: center;
@@ -64,7 +66,8 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(191, 255, 161)">Want-to-Go List</a>
+        <a href="<%= backUrl %>" class="back-button" style="color: rgba(191, 255, 161, 0.148)">Back</a>   
+             <a class="navbar-brand" style="color: rgb(191, 255, 161)">Want-to-Go List</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
