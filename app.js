@@ -327,11 +327,12 @@ app.post('/search', function(req, res) {
     }
     else {
         searchQuery = req.body.Search.toLowerCase();
-        console.log(searchQuery);
+        if (searchQuery.length === 0) {
+            return;
+        }
         results = [];
         for (let i = 0; i < locations.length; i++) {
             if (locations[i].label.toLowerCase().includes(searchQuery)) {
-                console.log(locations[i].label + " contains " + searchQuery);
                 results.push(locations[i]);
             }
         }
@@ -394,7 +395,6 @@ app.get('/wanttogo', async (req, res) => {
         try {
             const user = req.session.user;
             const userDoc = await db.collection('myCollection').findOne({ username: user });
-            console.log(userDoc);
             return res.render('wanttogo', {wantToGoList: userDoc.destinations});
         } catch (err) {
             req.session.errorMessage = "An error occurred.";
