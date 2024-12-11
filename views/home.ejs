@@ -37,11 +37,20 @@
             top: 150px;
             color: white;
         }
-        .wanttogo {
-            position: fixed;
-            left: 370px;
-            top: 570px;
+       .wanttogobutton {
+            position: relative; /* Change from fixed to relative */
+            top: 330px; /* Adjust this value to add spacing between other sections */
+            left: 20; /* Center the button horizontally if needed */
+            width: 100%; /* Make the button span the full width */
+            text-align: center; /* Center the button text */
+            margin-top: 50px; /* Adjust this to add some space from the other elements */
         }
+
+        #wanttogo {
+            width: 700px;
+            height: 50px;
+        }
+
         /* error message styling */
         .error-message {
             display: none;
@@ -134,6 +143,7 @@
             <br>
             <button onclick="location.href = '/islands';" id="islands" class="btn btn-secondary ml-3">View</button>
         </div>
+
         <div class="wanttogobutton">
             <button onclick="location.href = '/wanttogo';" id="wanttogo" class="btn btn-secondary ml-3" style="width: 700px; height: 50px;">
                 Want-to-Go List
