@@ -24,6 +24,14 @@ app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
 
+const locations = [
+    { id: 'inca', label: 'Inca Trail to Machu Picchu' },
+    { id: 'annapurna', label: 'Annapurna Circuit' },
+    { id: 'paris', label: 'Paris' },
+    { id: 'rome', label: 'Rome' },
+    { id: 'bali', label: 'Bali Island' },
+    { id: 'santorini', label: 'Santorini Island' }
+];
 
 
 // Connect to MongoDB
@@ -232,6 +240,17 @@ app.get('/santorini', function(req, res) {
     res.redirect('/');
 });
 
+app.get('/search', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    if (req.session.user) {
+        res.render('home');
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
 
 
 
@@ -300,6 +319,29 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.post('/search', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    if (!req.session.user) {
+        res.redirect('/');
+    }
+    else {
+        searchQuery = req.body.Search.toLowerCase();
+        console.log(searchQuery);
+        results = [];
+        for (let i = 0; i < locations.length; i++) {
+            if (locations[i].label.toLowerCase().includes(searchQuery)) {
+                console.log(locations[i].label + " contains " + searchQuery);
+                results.push(locations[i]);
+            }
+        }
+        res.render('test', {locations: results})
+    }
+});
+
+app.get('/test', (req, res) => {
+    res.render('test', { locations });
+});
 
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
