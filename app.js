@@ -98,14 +98,19 @@ app.get('/home', (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
 
     if (req.session.user) {
-      const successMessage = req.session.successMessage || null;
+
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+
+        // Clear session messages after using them
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
   
-      // Clear session messages after using them
-      req.session.successMessage = null;
-  
-      res.render('home', { 
-        successMessage 
-      });
+    
+        res.render('home', { 
+            errorMessage, 
+            successMessage 
+        });
     }
     else{
         res.redirect('/');
@@ -114,101 +119,110 @@ app.get('/home', (req, res) => {
 
 app.get('/hiking', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-        res.render('hiking');
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('hiking', { errorMessage, successMessage });
     }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/inca', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    if (req.session.user) {
-        res.render('inca');
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/annapurna', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    if (req.session.user) {
-        res.render('annapurna');
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/cities', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    if (req.session.user) {
-        res.render('cities');
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/paris', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    if (req.session.user) {
-        res.render('paris');
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/rome', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    if (req.session.user) {
-        res.render('rome');
-    }
-    else {
-        res.redirect('/');
-    }
+    res.redirect('/');
 });
 
 app.get('/islands', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-        res.render('islands');
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('islands', { errorMessage, successMessage });
     }
-    else {
-        res.redirect('/');
+    res.redirect('/');
+});
+
+app.get('/cities', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('cities', { errorMessage, successMessage });
     }
+    res.redirect('/');
+});
+
+app.get('/annapurna', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('annapurna', { errorMessage, successMessage });
+    }
+    res.redirect('/');
+});
+
+app.get('/inca', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('inca', { errorMessage, successMessage });
+    }
+    res.redirect('/');
+});
+
+app.get('/paris', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('paris', { errorMessage, successMessage });
+    }
+    res.redirect('/');
+});
+
+app.get('/rome', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('rome', { errorMessage, successMessage });
+    }
+    res.redirect('/');
 });
 
 app.get('/bali', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-        res.render('bali');
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('bali', { errorMessage, successMessage });
     }
-    else {
-        res.redirect('/');
-    }
+    res.redirect('/');
 });
 
 app.get('/santorini', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-        res.render('santorini');
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('santorini', { errorMessage, successMessage });
     }
-    else {
-        res.redirect('/');
-    }
+    res.redirect('/');
 });
 
 
@@ -268,7 +282,7 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Save the user to the database
-        await db.collection('myCollection').insertOne({ username, password: hashedPassword });
+        await db.collection('myCollection').insertOne({ username, password: hashedPassword, destinations: [] });
 
         // Redirect to the login page after successful registration
         req.session.successMessage = "Success: User registered successfully";
@@ -289,3 +303,40 @@ app.post('/logout', (req, res) => {
       res.redirect('/');
     });
 });
+
+////////////Want To Go List Part/////////////
+
+
+
+app.post('/add-to-wanttogo', async (req, res) => {
+    if (req.session.user) {
+        const { destination } = req.body;
+        const user = req.session.user;
+        
+        try {
+            const userDoc = await db.collection('myCollection').findOne({ username: user });
+
+            // Avoid duplicates
+            if (userDoc.destinations?.includes(destination)) {
+                req.session.errorMessage = "Destination already in list.";
+                return res.redirect(req.get('referrer'));  // Redirect back to the referring page
+            }
+
+            await db.collection('myCollection').updateOne(
+                { username: user },
+                { $push: { destinations: destination } }
+            );
+
+            req.session.successMessage = "Added to Want-to-Go List!";
+            return res.redirect(req.get('referrer'));  // Redirect back to the referring page
+        } catch (err) {
+            req.session.errorMessage = "An error occurred.";
+        }
+    } else {
+        res.redirect('/');
+    }
+});
+
+
+
+
