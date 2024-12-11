@@ -12,6 +12,11 @@
             text-align: center;
             -webkit-text-stroke: 1px rgb(51, 51, 87);
         }
+        h2 {
+            color: white;
+            text-align: center;
+            -webkit-text-stroke: 1px rgb(51, 51, 87);
+        }
         .cont {
             position: relative;
             left: 600px;
@@ -58,16 +63,20 @@
         </div>
     </nav>
     <h1 class="text-center">Search Results</h1>
-    <div class="d-flex justify-content-center flex-wrap">
-        <% for (let i = 0; i < locations.length; i++) { %>
-            <div class="container1">
-                <img id="image" src=<%=locations[i].id + ".png"%> width="193" height="300">
-                <br>
-                <label id ="label2" class="ml-4 my-2"><%=locations[i].label%></label>
-                <br>
-                <button onclick="location.href = '<%= '/' + locations[i].id %>';" id="<%= locations[i].id %>" class="btn btn-secondary ml-3">View</button>
-            </div>
-        <% } %>
-    </div>
+    <% if (locations.length > 0) { %>
+        <div class="d-flex justify-content-center flex-wrap">
+            <% for (let i = 0; i < locations.length; i++) { %>
+                <div class="container1">
+                    <img id="image" src=<%=locations[i].id + ".png"%> width="193" height="300">
+                    <br>
+                    <label id ="label2" class="ml-4 my-2"><%=locations[i].label%></label>
+                    <br>
+                    <button onclick="location.href = '<%= '/' + locations[i].id %>';" id="<%= locations[i].id %>" class="btn btn-secondary ml-3">View</button>
+                </div>
+            <% } %>
+        </div>
+    <% } else { %>
+        <h2 class="text-center">No results.</h2>
+    <% } %>
 </body>
 </html>

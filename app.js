@@ -388,5 +388,17 @@ app.post('/add-to-wanttogo', async (req, res) => {
 });
 
 
-
-
+app.get('/wanttogo', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        try {
+            const user = req.session.user;
+            const userDoc = await db.collection('myCollection').findOne({ username: user });
+            console.log(userDoc);
+            return res.render('wanttogo', {wantToGoList: userDoc.destinations});
+        } catch (err) {
+            req.session.errorMessage = "An error occurred.";
+        }
+    }
+    res.redirect('/');
+});
