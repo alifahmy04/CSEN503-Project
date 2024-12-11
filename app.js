@@ -45,6 +45,8 @@ connectToDatabase();
 
 
 
+
+
 // WARNING : when handling the get of any page, check first if there is a user logged in or not through this:
 // if (req.session.user)
 //     return res.redirect('/home');   session exists --> allow to go to the target page (there is a user logged in, so he can do whatever he wants)
@@ -53,7 +55,10 @@ connectToDatabase();
 
 
 
-
+app.use((req, res, next) => {
+    res.locals.backUrl = req.get('referrer') || '/home'; // Default to home if no referrer
+    next();
+});
 
 // Routes
 app.get('/', function(req, res) {
@@ -224,6 +229,7 @@ app.get('/santorini', function(req, res) {
     }
     res.redirect('/');
 });
+
 
 
 
