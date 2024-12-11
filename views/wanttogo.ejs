@@ -79,14 +79,14 @@
             </form>
         </div>
     </nav>
-    <% if (wantToGoList.length > 0) { %>
-        <ul>
-            <% wantToGoList.forEach(function(destination) { %>
+    <ul>
+        <% if (wantToGoList.length > 0) { %>
+            <% wantToGoList.forEach(destination => { %>
                 <li><%= destination %></li>
-            <% }) %>
-        </ul>
-    <% } else { %>
-        <p>No destinations added to your "Want to Go" list yet.</p>
-    <% } %>
+            <% }); %>
+        <% } else { %>
+            <p>No destinations found.</p>
+        <% } %>
+    </ul>
 </body>
 </html>

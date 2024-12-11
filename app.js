@@ -337,6 +337,37 @@ app.post('/add-to-wanttogo', async (req, res) => {
     }
 });
 
+app.get('/wanttogobutton', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('wanttogo', { errorMessage, successMessage });
+    }
+    res.redirect('/');
+});
 
+app.get('/wanttogo',  async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        try {
+             // Fetch user-specific data from the database
+            const username = req.session.user;
+            const userDoc = await db.collection('myCollection').findOne({ username: username });
 
+            const wantToGoList = userDoc.destinations || [];
+            if ( wantToGoList.length==0) {
+                req.session.errorMessage = "No destinations found.";
+            }
 
+            return  res.render('wanttogo', {wantToGoList});
+
+        } catch (err) {
+            req.session.errorMessage = "Error fetching data.";
+             return res.redirect(req.get('referrer'));  // Redirect back to the referring page
+        }
+    }
+    res.redirect('/'); // Redirect to login if not logged in
+});
