@@ -363,7 +363,7 @@ app.post('/add-to-wanttogo', async (req, res) => {
     if (req.session.user) {
         const { destination } = req.body;
         const user = req.session.user;
-        
+        console.log(destination);
         try {
             const userDoc = await db.collection('myCollection').findOne({ username: user });
 
@@ -408,9 +408,16 @@ app.get('/wanttogo',  async (req, res) => {
             const username = req.session.user;
             const userDoc = await db.collection('myCollection').findOne({ username: username });
 
-            const wantToGoList = userDoc.destinations || [];
-            if ( wantToGoList.length==0) {
+            const results = userDoc.destinations || [];
+            if (results.length == 0) {
                 req.session.errorMessage = "No destinations found.";
+            }
+
+            wantToGoList = [];
+            for (let i = 0; i < locations.length; i++) {
+                if (results.includes(locations[i].label)){
+                    wantToGoList.push(locations[i]);
+                }
             }
 
             return  res.render('wanttogo', {wantToGoList});

@@ -45,6 +45,14 @@
             color: #6c757d;
             font-size: 1.1rem;
         }
+        .container1 {
+            display: inline-block;
+            margin: 30px;
+            width: 225px;
+            height: 300px;
+            text-align: center;
+            color: white;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -84,10 +92,19 @@
     </nav>
     <ul>
         <% if (wantToGoList.length > 0) { %>
-            <% wantToGoList.forEach(destination => { %>
-                <li><%= destination %></li>
-            <% }); %>
-        <% } else { %>
+            <div class="d-flex justify-content-center flex-wrap">
+                <% for (let i = 0; i < wantToGoList.length; i++) { %>
+                    <div class="container1">
+                        <img id="image" src=<%=wantToGoList[i].id + ".png"%> width="193" height="300">
+                        <br>
+                        <label id ="label2" class="ml-4 my-2"><%=wantToGoList[i].label%></label>
+                        <br>
+                        <button onclick="location.href = '<%= '/' + wantToGoList[i].id %>';" id="<%= wantToGoList[i].id %>" class="btn btn-secondary ml-3">View</button>
+                    </div>
+                <% } %>
+            </div>
+        <% } 
+        else { %>
             <p>No destinations found.</p>
         <% } %>
     </ul>
