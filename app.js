@@ -336,12 +336,21 @@ app.post('/search', function(req, res) {
                 results.push(locations[i]);
             }
         }
-        res.render('test', {locations: results})
+
+        if (results.length == 0) 
+            req.session.errorMessage = "No Results Found";
+
+        res.render('test', {locations: results , errorMessage: req.session.errorMessage })
     }
 });
 
-app.get('/test', (req, res) => {
-    res.render('test', { locations });
+app.get('/test', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    const errorMessage = req.session.errorMessage || null;
+    req.session.errorMessage = null;
+
+    return res.render('test', {locations, errorMessage});
 });
 
 app.post('/logout', (req, res) => {

@@ -36,6 +36,24 @@
             position: relative;
             right: -55px;
         }
+        .error-message {
+            display: none;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            background-color: red;
+            position: fixed;
+            bottom: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: auto;
+            max-width: 600px;
+            text-align: center;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,6 +95,19 @@
         </div>
     <% } else { %>
         <h2 class="text-center">No results.</h2>
+    <% } %>
+
+    <!-- Display error message if exists -->
+    <% if (errorMessage) { %>
+        <div class="error-message" id="error-message"><%= errorMessage %></div>
+        <script>
+            const errorDiv = document.getElementById("error-message");
+            errorDiv.style.display = "block";
+            setTimeout(function() {
+                errorDiv.style.display = "none";
+                errorDiv.textContent = "";
+            }, 2500);
+        </script>
     <% } %>
 </body>
 </html>
