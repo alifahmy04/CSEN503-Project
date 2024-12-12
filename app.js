@@ -362,24 +362,34 @@ app.post('/logout', (req, res) => {
 
 
 
-/*
-app.post('/Unregister',(req,res)=>{
-    const { username} = req.body;
-    //db.collection('myCollection').remove({username});
 
-    req.session.destroy((err) => {
-        if (err) {
-            console.error("Error during logout:", err);
-            return res.send("Error during logout.");
+app.post('/remove-from-wanttogo', async (req, res) => {
+    if (req.session.user) {
+        const { destination } = req.body;
+        const user = req.session.user;
+        console.log(destination);
+        try {
+            const userDoc = await db.collection('myCollection').findOne({ username: user });
+
+           
+            await db.collection('myCollection').updateOne(
+                { username: user },
+                { $pull: { destinations: destination } }
+            );
+
+            req.session.successMessage = "Removed Succesfully";
+            return res.redirect(req.get('referrer'));  // Redirect back to the referring page
+        } catch (err) {
+            req.session.errorMessage = "An error occurred.";
         }
-        console.log("Logged out successfully!");
+    } else {
         res.redirect('/');
-      });
-
-      db.collection('myCollection').drop({username});
-
+    }
 });
-*/
+
+
+
+
 
 ////////////Want To Go List Part/////////////
 
