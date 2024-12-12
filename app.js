@@ -62,12 +62,7 @@ connectToDatabase();
 
 
 
-//this is for the backbutton
-app.use((req, res, next) => {
-    res.locals.backUrl = req.get('referrer') || '/home'; // Default to home if no referrer
-    next();
-});
-//referrer gets the most previous page
+//back button code now handeled completely in front end
 
 
 // Routes
@@ -353,6 +348,7 @@ app.get('/test', function(req, res) {
     return res.render('test', {locations, errorMessage});
 });
 
+
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
       if (err) {
@@ -363,6 +359,27 @@ app.post('/logout', (req, res) => {
       res.redirect('/');
     });
 });
+
+
+
+/*
+app.post('/Unregister',(req,res)=>{
+    const { username} = req.body;
+    //db.collection('myCollection').remove({username});
+
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error during logout:", err);
+            return res.send("Error during logout.");
+        }
+        console.log("Logged out successfully!");
+        res.redirect('/');
+      });
+
+      db.collection('myCollection').drop({username});
+
+});
+*/
 
 ////////////Want To Go List Part/////////////
 
