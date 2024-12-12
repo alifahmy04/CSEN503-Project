@@ -7,48 +7,44 @@
             background-repeat: no-repeat;
             background-size: 100%;
         }
+
         h1 {
             color: white;
             text-align: center;
             -webkit-text-stroke: 1px blue;
-        }
-        .cont {
-            position: relative;
-            left: 600px;
-            top: 50px;
-            color: white;
-            -webkit-text-stroke: 0.5px black;
-        }
-        .container1 {
-            position: fixed;
-            left: 50px;
-            top: 150px;
-            color: white;
-        }
-        .container2 {
-            position: fixed;
-            left: 640px;
-            top: 150px;
-            color: white;
-        }
-        .container3 {
-            position: fixed;
-            left: 1250px;
-            top: 150px;
-            color: white;
-        }
-       .wanttogobutton {
-            position: relative; /* Change from fixed to relative */
-            top: 330px; /* Adjust this value to add spacing between other sections */
-            left: 20; /* Center the button horizontally if needed */
-            width: 100%; /* Make the button span the full width */
-            text-align: center; /* Center the button text */
-            margin-top: 50px; /* Adjust this to add some space from the other elements */
+            padding: 20px;
         }
 
-        #wanttogo {
-            width: 700px;
-            height: 50px;
+        .container1,
+        .container2,
+        .container3 {
+            color: white;
+            -webkit-text-stroke: 0.5px black;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .container1 img,
+        .container2 img,
+        .container3 img {
+            display: block; 
+            margin: 10px auto;
+            width: 250px;
+            height: 250px;
+        }
+
+        .containers {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 80px;
+        }
+
+        .wanttogobutton {
+            margin: 150px auto; 
+            text-align: center;
         }
 
         /* error message styling */
@@ -99,7 +95,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(191, 255, 161)">Destinations</a>
+        <a class="navbar-brand" style="color: rgb(191, 255, 161);">Destinations</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -119,36 +115,36 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1>Welcome</h1>
-    </div>
+    <div><h1>Welcome</h1></div>
+    <div class="containers">
         <div class="container1">
-            <img id="image" src="/hiking.png" width="200" height="200">
+            <img id="image" src="/hiking.png">
             <br>
-            <label class="ml-4 my-2">Hiking</label>
+            <label class="ml-4 my-2" >Hiking</label>
             <br>
             <button onclick="location.href = '/hiking';" id="hiking" class="btn btn-secondary ml-3">View</button>
         </div>
         <div class="container2">
-            <img id="image" src="/cities.png" width="200" height="200">
+            <img id="image" src="/cities.png">
             <br>
             <label class="ml-4 my-2">Cities</label>
             <br>
             <button onclick="location.href = '/cities';" id="cities" class="btn btn-secondary ml-3">View</button>
         </div>
         <div class="container3">
-            <img id="image" src="/islands.png" width="200" height="200">
+            <img id="image" src="/islands.png">
             <br>
             <label class="ml-4 my-2">Islands</label>
             <br>
-            <button onclick="location.href = '/islands';" id="islands" class="btn btn-secondary ml-3">View</button>
+            <button onclick="location.href = '/islands';" id="islands" class="btn btn-secondary ml-3" >View</button>
         </div>
+    </div>
 
-        <div class="wanttogobutton">
-            <button onclick="location.href = '/wanttogo';" id="wanttogo" class="btn btn-secondary ml-3" style="width: 700px; height: 50px;">
-                Want-to-Go List
-            </button>
-        </div>
+    <div class="wanttogobutton">
+        <button onclick="location.href = '/wanttogo';" id="wanttogo" class="btn btn-secondary ml-3" style="padding: 10px; width: 300px; height: 45px;">
+            Want-to-Go List
+        </button>
+    </div>
 
     <!-- Display error message if exists -->
     <% if (errorMessage) { %>
