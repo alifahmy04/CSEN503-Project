@@ -339,15 +339,6 @@ app.post('/search', function(req, res) {
     }
 });
 
-app.get('/test', function(req, res) {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
-    const errorMessage = req.session.errorMessage || null;
-    req.session.errorMessage = null;
-
-    return res.render('test', {locations, errorMessage});
-});
-
 
 app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
