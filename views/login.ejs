@@ -56,6 +56,15 @@
             max-width: 600px;
             text-align: center;
         }
+        .link {
+            font-size: 18px;
+            color: #10243a;
+            text-decoration: underline;
+        }
+
+        .link:hover {
+            color: #0f1923; /* Darker shade for hover effect */
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,13 +84,37 @@
             <input type="text" name="username">
             <br>
             Password:<br>
-            <input type="password" name="password">
+            <div style="position: fixed; display: inline-block;">
+                <input type="password" name="password" id="password">
+                <span id="togglePassword" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                    <img src="eye-closed.png" alt="Show Password" id="eyeIcon" style="width: 30px; height: 20px;">
+                </span>
+            </div>
             <br><br>
             <input type="submit" value="Login">
         </form>
         <br>
-        <a href="registration">I don't have an account</a>
+        <a href="registration" class="link">I don't have an account</a>
+
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+    
+        togglePassword.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.src = 'eye-open.png'; // Change to open eye icon
+                eyeIcon.alt = 'Hide Password';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.src = 'eye-closed.png'; // Change to closed eye icon
+                eyeIcon.alt = 'Show Password';
+            }
+        });
+    </script>
     
     <!-- Display error message if exists -->
     <% if (errorMessage) { %>

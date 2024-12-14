@@ -446,11 +446,14 @@ app.get('/wanttogo',  async (req, res) => {
                     wantToGoList.push(locations[i]);
                 }
             }
-
+            req.session.errorMessage = null;
+            req.session.successMessage = null;
             return  res.render('wanttogo', {wantToGoList});
 
         } catch (err) {
             req.session.errorMessage = "Error fetching data.";
+            req.session.errorMessage = null;
+            req.session.successMessage = null;
              return res.redirect(req.get('referrer'));  // Redirect back to the referring page
         }
     }
