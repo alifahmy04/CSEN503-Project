@@ -5,84 +5,150 @@
         body {
             background-image: url("background3.jpg");
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            color: white;
         }
 
         h1 {
-            color: white;
+        color: white;
+        text-align: center;
+        font-size: 50px;
+        margin-top: 80px;
+        background: linear-gradient(45deg, #ff8c00, #ff6347);
+        -webkit-background-clip: text;
+        background-clip: text;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+
+        .container1, .container2, .container3 {
             text-align: center;
-            -webkit-text-stroke: 1px blue;
             padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(207, 203, 203, 0);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0);
+            transition: transform 0.3s ease;
         }
 
-        .container1,
-        .container2,
-        .container3 {
-            color: white;
-            -webkit-text-stroke: 0.5px black;
-            text-align: center;
-            padding: 10px;
-            border-radius: 5px;
+        .container1:hover, .container2:hover, .container3:hover {
+            transform: scale(1.03);
         }
 
-        .container1 img,
-        .container2 img,
-        .container3 img {
-            display: block; 
-            margin: 10px auto;
-            width: 250px;
-            height: 250px;
+        .container1 img, .container2 img, .container3 img {
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
         }
 
         .containers {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
+            gap: 40px;
             justify-content: center;
-            margin-top: 80px;
+            margin: 50px 20px;
+        }
+
+        .container1 label, .container2 label, .container3 label {
+            font-size: 24px;
+            color: white;
+            font-weight: normal;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .container1 label:hover, .container2 label:hover, .container3 label:hover {
+            transform: scale(1.1);
         }
 
         .wanttogobutton {
-            margin: 150px auto; 
             text-align: center;
+            margin-top: 60px;
         }
 
-        /* error message styling */
-        .error-message {
-            display: none;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 16px;
+        .wanttogobutton button {
+            padding: 16px 35px;
+            font-size: 20px;
+            font-weight: normal;
+            border-radius: 30px;
+            background-color: #6684a5;
             color: white;
-            background-color: red;
-            position: fixed;
-            bottom: 3%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            width: auto;
-            max-width: 600px;
-            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
         }
-        .success-message {
+
+        .wanttogobutton button:hover {
+            background-color: #2d435a;
+            transform: scale(1.05);
+        }
+
+        .navbar {
+            background-color: #343a40 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            color: #f0f8ff !important;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .form-control, .btn {
+            border-radius: 25px;
+        }
+
+        .form-inline {
+            margin-right: 20px;
+        }
+
+        .btn-outline-success {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .btn-outline-success:hover, .btn-outline-danger:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .error-message, .success-message {
             display: none;
             padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 18px;
             font-weight: bold;
-            font-size: 16px;
-            color: white;
-            background-color: green;
             position: fixed;
             bottom: 3%;
             left: 50%;
             transform: translateX(-50%);
             z-index: 9999;
-            width: auto;
-            max-width: 600px;
-            text-align: center;
+            color: white;
+        }
+
+        .error-message {
+            background-color: #dc3545;
+        }
+
+        .success-message {
+            background-color: #28a745;
         }
     </style>
     <meta charset="UTF-8">
@@ -94,59 +160,54 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <a class="navbar-brand" style="color: rgb(191, 255, 161);">Destinations</a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand">Destinations</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            </ul>
-            <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <!-- Logout button -->
-            <form method="POST" action="/logout" class="form-inline my-2 my-lg-0 ml-3">
-                <button type="submit" class="btn btn-outline-danger">Logout</button>
-            </form>
+        <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
+            <div class="ml-auto d-flex">
+                <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <form method="POST" action="/logout" class="form-inline my-2 my-lg-0 ml-3">
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+            </div>
         </div>
     </nav>
 
     <div><h1>Welcome</h1></div>
     <div class="containers">
         <div class="container1">
-            <img id="image" src="/hiking.png">
+            <img id="image" src="/hiking.png" alt="Hiking">
             <br>
-            <label class="ml-4 my-2" >Hiking</label>
+            <label class="my-2">Hiking</label>
             <br>
-            <button onclick="location.href = '/hiking';" id="hiking" class="btn btn-secondary ml-3">View</button>
+            <button onclick="location.href = '/hiking';" id="hiking" class="btn btn-secondary">View</button>
         </div>
         <div class="container2">
-            <img id="image" src="/cities.png">
+            <img id="image" src="/cities.png" alt="Cities">
             <br>
-            <label class="ml-4 my-2">Cities</label>
+            <label class="my-2">Cities</label>
             <br>
-            <button onclick="location.href = '/cities';" id="cities" class="btn btn-secondary ml-3">View</button>
+            <button onclick="location.href = '/cities';" id="cities" class="btn btn-secondary">View</button>
         </div>
         <div class="container3">
-            <img id="image" src="/islands.png">
+            <img id="image" src="/islands.png" alt="Islands">
             <br>
-            <label class="ml-4 my-2">Islands</label>
+            <label class="my-2">Islands</label>
             <br>
-            <button onclick="location.href = '/islands';" id="islands" class="btn btn-secondary ml-3" >View</button>
+            <button onclick="location.href = '/islands';" id="islands" class="btn btn-secondary">View</button>
         </div>
     </div>
 
     <div class="wanttogobutton">
-        <button onclick="location.href = '/wanttogo';" id="wanttogo" class="btn btn-secondary ml-3" style="padding: 10px; width: 300px; height: 45px;">
-            Want-to-Go List
-        </button>
+        <button onclick="location.href = '/wanttogo';" id="wanttogo">Want-to-Go List</button>
     </div>
 
-    <!-- Display error message if exists -->
     <% if (errorMessage) { %>
         <div class="error-message" id="error-message"><%= errorMessage %></div>
         <script>
@@ -159,7 +220,6 @@
         </script>
     <% } %>
 
-    <!-- Display success message if exists -->
     <% if (successMessage) { %>
         <div id="success-message" class="success-message"><%= successMessage %></div>
         <script>
@@ -170,8 +230,6 @@
                 successDiv.textContent = "";
             }, 1500);
         </script>
-         
     <% } %>
-
 </body>
 </html>

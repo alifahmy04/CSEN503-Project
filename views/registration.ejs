@@ -2,25 +2,98 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+        crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <style>
         body {
             background-image: url("background2.jpg");
             background-repeat: no-repeat;
-            background-size: 100%;
-            }
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
         h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px blue;
+            -webkit-text-stroke: 1px rgb(13, 13, 14);
+            margin-top: 50px;
         }
-        .cont {
-            position:relative;
-            left:600px;
-            top:50px;
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             -webkit-text-stroke: 0.5px black;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin: 50px auto;
+            margin-top: 150px;
+            max-width: 500px;
         }
-        /* error message styling */
+
+        input[type="text"], input[type="password"] {
+            background-color: rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 30;
+        }
+        button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #bfffa1;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 75%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .toggle-password i {
+            color: black;
+        }
+
         .error-message {
             display: none;
             padding: 15px;
@@ -39,28 +112,35 @@
             max-width: 600px;
             text-align: center;
         }
- 
+
+        label[for="user"],label[for="password"] {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
     </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
 </head>
 
 <body>
-       <div class="container">
-        <h1>Registration</h1>
-    </div>
-    <div class="cont">
+    <h1>Registration</h1>
+
+    <div class="form-container">
         <form method='post' action='/register'>
-            Username: <br>
-            <input type="text" id="user" name="username"> <br>
-            Password: <br>
-            <input type="password" id="password" name="password"> <br> <br>
-            <input type="submit" id="simple_click" class="btn btn-secondary" value="Register"> <br>
-            <a href="http://localhost:3000/" class="back-button" style="color: rgba(191, 255, 161, 0.148)">Back</a> 
+            <div class="form-group">
+                <label for="user">Username:</label>
+                <input type="text" id="user" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group password-container">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+                <span id="togglePassword" class="toggle-password">
+                    <i id="eyeIcon" class="fas fa-eye-slash"></i>
+                </span>
+            </div>
+
+            <button type="submit" id="simple_click" class="btn btn-primary btn-block">Register</button>
+            <a href="http://localhost:3000/" class="back-button">Back</a>
         </form>
     </div>
 
@@ -70,13 +150,30 @@
         <script>
             const errorDiv = document.getElementById("error-message");
             errorDiv.style.display = "block";
-            setTimeout(function() {
+            setTimeout(function () {
                 errorDiv.style.display = "none";
                 errorDiv.textContent = "";
             }, 1500);
         </script>
     <% } %>
 
+    <script>
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        togglePassword.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 </body>
 
 </html>
