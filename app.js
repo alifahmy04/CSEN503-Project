@@ -334,8 +334,9 @@ app.post('/search', function(req, res) {
 
         if (results.length == 0) 
             req.session.errorMessage = "No Results Found";
-
-        res.render('searchresults', {locations: results , errorMessage: req.session.errorMessage })
+        const errorMessage = req.session.errorMessage;
+        req.session.errorMessage = null;
+        res.render('searchresults', {locations: results , errorMessage: errorMessage })
     }
 });
 
