@@ -37,14 +37,20 @@
         h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px black;
+            -webkit-text-stroke: 1px rgb(13, 13, 14);
+            margin-top: 100px;
         }
 
         .form-container {
             background: rgba(255, 255, 255, 0.1);
+            color: white;
+            -webkit-text-stroke: 0.5px black;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin: 50px auto;
+            margin-top: 150px;
+            max-width: 500px;
         }
 
         input[type="text"], input[type="password"] {
@@ -70,12 +76,12 @@
 
         .link {
             font-size: 16px;
-            color: #cce7ff;
+            color: #1e517e;
             text-decoration: underline;
         }
 
         .link:hover {
-            color: #99cfff;
+            color: #12283b;
         }
 
         .password-container {
@@ -130,31 +136,29 @@
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="container d-flex justify-content-center align-items-center flex-column">
-        <h1>Welcome</h1>
 
-        <div class="form-container col-md-6 col-sm-10">
-            <form method="POST" action='/login'>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
+    <h1>Welcome</h1>
 
-                <div class="form-group password-container">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                    <span id="togglePassword" class="toggle-password">
-                        <i id="eyeIcon" class="fas fa-eye-slash"></i>
-                    </span>
-                </div>
-
-                <button type="submit" class="btn btn-success btn-block">Login</button>
-            </form>
-
-            <div class="text-center mt-3">
-                <a href="registration" class="link">I don't have an account</a>
+    <div class="form-container col-md-6 col-sm-10">
+        <form method="POST" action='/login'>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control">
             </div>
+
+            <div class="form-group password-container">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control">
+                <span id="togglePassword" class="toggle-password">
+                    <i id="eyeIcon" class="fas fa-eye-slash"></i>
+                </span>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">Login</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="registration" class="link">I don't have an account</a>
         </div>
     </div>
 

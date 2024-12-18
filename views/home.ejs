@@ -14,17 +14,18 @@
         }
 
         h1 {
-        color: white;
-        text-align: center;
-        font-size: 50px;
-        margin-top: 80px;
-        background: linear-gradient(45deg, #ff8c00, #ff6347);
-        -webkit-background-clip: text;
-        background-clip: text;
-        font-weight: bold;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
+            color: white;
+            text-align: center;
+            font-size: 50px;
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .welcomeLabel{
+            margin-top: 50px;
+        }
 
         .container1, .container2, .container3 {
             text-align: center;
@@ -36,12 +37,12 @@
         }
 
         .container1:hover, .container2:hover, .container3:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
         .container1 img, .container2 img, .container3 img {
             display: block;
-            margin: 20px auto;
+            margin: 40px auto;
             width: 200px;
             height: 200px;
             border-radius: 50%;
@@ -59,19 +60,15 @@
             font-size: 24px;
             color: white;
             font-weight: normal;
-            margin-top: 10px;
+            margin-top: 8px;
             display: block;
             text-align: center;
             transition: transform 0.3s ease;
         }
 
-        .container1 label:hover, .container2 label:hover, .container3 label:hover {
-            transform: scale(1.1);
-        }
-
         .wanttogobutton {
             text-align: center;
-            margin-top: 60px;
+            margin-top: 90px;
         }
 
         .wanttogobutton button {
@@ -99,7 +96,6 @@
         .navbar-brand {
             color: #f0f8ff !important;
             font-size: 24px;
-            text-transform: uppercase;
         }
 
         .form-control, .btn {
@@ -107,7 +103,7 @@
         }
 
         .form-inline {
-            margin-right: 20px;
+            margin-right: 0px;
         }
 
         .btn-outline-success {
@@ -179,7 +175,7 @@
         </div>
     </nav>
 
-    <div><h1>Welcome</h1></div>
+    <div class="welcomeLabel"><h1>Welcome</h1></div>
     <div class="containers">
         <div class="container1">
             <img id="image" src="/hiking.png" alt="Hiking">
@@ -204,9 +200,9 @@
         </div>
     </div>
 
-    <div class="wanttogobutton">
-        <button onclick="location.href = '/wanttogo';" id="wanttogo">Want-to-Go List</button>
-    </div>
+    <form method="POST" action='/wantToGo' class="wanttogobutton">
+        <button type="submit" >Want-to-Go List</button>
+    </form>
 
     <% if (errorMessage) { %>
         <div class="error-message" id="error-message"><%= errorMessage %></div>

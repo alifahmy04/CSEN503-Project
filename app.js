@@ -24,6 +24,7 @@ app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
 
+// Data
 const locations = [
     { id: 'inca', label: 'Inca Trail to Machu Picchu' },
     { id: 'annapurna', label: 'Annapurna Circuit' },
@@ -50,22 +51,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 
-
-
-
-
-
-// WARNING : when handling the get of any page, check first if there is a user logged in or not through this:
-// if (req.session.user)
-//     return res.redirect('/home');   session exists --> allow to go to the target page (there is a user logged in, so he can do whatever he wants)
-// res.redirect('/');                  no session exists --> there is no logged-in user --> you must force him go to the login page
-
-
-
-//back button code now handeled completely in front end
-
-
-// Routes
+// GET Handlers 
 app.get('/', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
 
@@ -74,57 +60,36 @@ app.get('/', function(req, res) {
       return res.redirect('/home');
     }
 
-    // If no session exists, go to login page
     const errorMessage = req.session.errorMessage || null;
     const successMessage = req.session.successMessage || null;
-
-    // Clear session messages after using them
     req.session.errorMessage = null; 
     req.session.successMessage = null;
-
-    res.render('login', { 
-      errorMessage, 
-      successMessage 
-    });
+    res.render('login', { errorMessage, successMessage });
 });
-
 
 app.get('/registration', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
 
+    if (req.session.user) {
+        // If session exists, automatically log in and redirect to the home page
+        return res.redirect('/home');
+    }
+  
     const errorMessage = req.session.errorMessage || null;
-
-    // Clear session messages after using them
     req.session.errorMessage = null; 
-
-    res.render('registration', { 
-      errorMessage, 
-    });
+    res.render('registration', { errorMessage });
 });
 
-
-// Verify first that there is a user logged in (available session)
 app.get('/home', (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-
         const errorMessage = req.session.errorMessage || null;
         const successMessage = req.session.successMessage || null;
-
-        // Clear session messages after using them
         req.session.errorMessage = null;
         req.session.successMessage = null;
-  
-    
-        res.render('home', { 
-            errorMessage, 
-            successMessage 
-        });
+        return res.render('home', { errorMessage, successMessage });
     }
-    else{
-        res.redirect('/');
-    }
+    res.redirect('/');
 });
 
 app.get('/hiking', function(req, res) {
@@ -235,21 +200,35 @@ app.get('/santorini', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/search', function(req, res) {
+app.get('/wanttogo', async (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
-
     if (req.session.user) {
-        res.render('home');
+        await fetchWantToGoList(req); // Fetch data if not already fetched
+        const errorMessage = req.session.errorMessage || null;
+        const successMessage = req.session.successMessage || null;
+        req.session.errorMessage = null;
+        req.session.successMessage = null;
+        return res.render('wanttogo', { wantToGoList: req.session.wantToGoList, errorMessage: errorMessage, successMessage: successMessage });
     }
-    else {
-        res.redirect('/');
+    res.redirect('/');
+});
+
+app.get('/searchresults',  function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+    if (req.session.user) {
+        const errorMessage = req.session.errorMessage || null;
+        const locations = req.session.locations || null;
+        req.session.errorMessage = null;
+        req.session.locations = null;
+        return res.render('searchresults', {locations: locations , errorMessage: errorMessage })
     }
+    res.redirect('/'); 
 });
 
 
 
+// POST Handlers (Button Actions) 
 
-// login endpoint (Button Action)
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -277,12 +256,11 @@ app.post('/login', async (req, res) => {
 
     // Create session & Redirect to the login page after successful registration
     req.session.user = username;
-    req.session.successMessage = "Success: Login successful! ";
+    req.session.successMessage = "Successful Login! ";
     res.redirect('/home');
 });
 
 
-// Register endpoint (Button Action)
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
@@ -307,12 +285,13 @@ app.post('/register', async (req, res) => {
         await db.collection('myCollection').insertOne({ username, password: hashedPassword, destinations: [] });
 
         // Redirect to the login page after successful registration
-        req.session.successMessage = "Success: User registered successfully";
+        req.session.successMessage = "User registered successfully";
         res.redirect('/'); 
     } catch (err) {
         console.error('Error processing registration:', err);
     }
 });
+
 
 app.post('/search', function(req, res) {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
@@ -322,9 +301,9 @@ app.post('/search', function(req, res) {
     }
     else {
         searchQuery = req.body.Search.toLowerCase();
-        if (searchQuery.length === 0) {
+        if (searchQuery.length === 0)
             return;
-        }
+        
         results = [];
         for (let i = 0; i < locations.length; i++) {
             if (locations[i].label.toLowerCase().includes(searchQuery)) {
@@ -334,57 +313,41 @@ app.post('/search', function(req, res) {
 
         if (results.length == 0) 
             req.session.errorMessage = "No Results Found";
-        const errorMessage = req.session.errorMessage;
-        req.session.errorMessage = null;
-        res.render('searchresults', {locations: results , errorMessage: errorMessage })
+
+        req.session.locations = results;
+        return res.redirect('/searchresults');
     }
 });
-
-
-app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-          console.error("Error during logout:", err);
-          return res.send("Error during logout.");
-      }
-      console.log("Logged out successfully!");
-      res.redirect('/');
-    });
-});
-
-
 
 
 app.post('/remove-from-wanttogo', async (req, res) => {
     if (req.session.user) {
         const { destination } = req.body;
         const user = req.session.user;
-        console.log(destination);
-        try {
-            const userDoc = await db.collection('myCollection').findOne({ username: user });
+        const userDoc = await db.collection('myCollection').findOne({ username: user });
 
-           
-            await db.collection('myCollection').updateOne(
-                { username: user },
-                { $pull: { destinations: destination } }
-            );
+        await db.collection('myCollection').updateOne(
+            { username: user },
+            { $pull: { destinations: destination } }
+        );
 
-            req.session.successMessage = "Removed Succesfully";
-            return res.redirect(req.get('referrer'));  // Redirect back to the referring page
-        } catch (err) {
-            req.session.errorMessage = "An error occurred.";
+        const updatedUserDoc = await db.collection('myCollection').findOne({ username: user });
+
+        wantToGoList = [];
+        for (let i = 0; i < locations.length; i++) {
+            if (updatedUserDoc.destinations.includes(locations[i].label)){
+                wantToGoList.push(locations[i]);
+            }
         }
+
+        req.session.successMessage = "Removed Succesfully";
+        req.session.wantToGoList =  wantToGoList;
+
+        return res.redirect('/wanttogo');
     } else {
         res.redirect('/');
     }
 });
-
-
-
-
-
-////////////Want To Go List Part/////////////
-
 
 
 app.post('/add-to-wanttogo', async (req, res) => {
@@ -416,47 +379,45 @@ app.post('/add-to-wanttogo', async (req, res) => {
     }
 });
 
-app.get('/wanttogobutton', function(req, res) {
+
+app.post('/wantToGo', async (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
     if (req.session.user) {
-        const errorMessage = req.session.errorMessage || null;
-        const successMessage = req.session.successMessage || null;
-        req.session.errorMessage = null;
-        req.session.successMessage = null;
-        return res.render('wanttogo', { errorMessage, successMessage });
+        await fetchWantToGoList(req);
+        return res.redirect('/wanttogo');
     }
     res.redirect('/');
 });
 
-app.get('/wanttogo',  async (req, res) => {
-    res.setHeader('Cache-Control', 'no-store'); // Disable caching
-    if (req.session.user) {
-        try {
-             // Fetch user-specific data from the database
-            const username = req.session.user;
-            const userDoc = await db.collection('myCollection').findOne({ username: username });
 
-            const results = userDoc.destinations || [];
-            if (results.length == 0) {
-                req.session.errorMessage = "No destinations found.";
-            }
-
-            wantToGoList = [];
-            for (let i = 0; i < locations.length; i++) {
-                if (results.includes(locations[i].label)){
-                    wantToGoList.push(locations[i]);
-                }
-            }
-            req.session.errorMessage = null;
-            req.session.successMessage = null;
-            return  res.render('wanttogo', {wantToGoList});
-
-        } catch (err) {
-            req.session.errorMessage = "Error fetching data.";
-            req.session.errorMessage = null;
-            req.session.successMessage = null;
-             return res.redirect(req.get('referrer'));  // Redirect back to the referring page
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error during logout:", err);
+            return res.send("Error during logout.");
         }
-    }
-    res.redirect('/'); // Redirect to login if not logged in
+      console.log("Logged out successfully!");
+      res.redirect('/');
+    });
 });
+
+
+
+async function fetchWantToGoList(req) {
+    if (!req.session.user) return null;
+
+    const username = req.session.user;
+    const userDoc = await db.collection('myCollection').findOne({ username: username });
+
+    const results = userDoc ? userDoc.destinations || [] : [];
+    if (results.length === 0) {
+        req.session.errorMessage = "No destinations found.";
+    } else {
+        req.session.errorMessage = null;
+    }
+
+    const wantToGoList = locations.filter(location => results.includes(location.label));
+    req.session.wantToGoList = wantToGoList;
+
+    return wantToGoList;
+}
