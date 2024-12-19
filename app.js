@@ -80,6 +80,21 @@ app.get('/registration', function(req, res) {
     res.render('registration', { errorMessage });
 });
 
+app.get('/login', function(req, res) {
+    res.setHeader('Cache-Control', 'no-store'); // Disable caching
+
+    if (req.session.user) {
+      // If session exists, automatically log in and redirect to the home page
+      return res.redirect('/home');
+    }
+
+    const errorMessage = req.session.errorMessage || null;
+    const successMessage = req.session.successMessage || null;
+    req.session.errorMessage = null; 
+    req.session.successMessage = null;
+    res.render('login', { errorMessage, successMessage });
+});
+
 app.get('/home', (req, res) => {
     res.setHeader('Cache-Control', 'no-store'); // Disable caching
     if (req.session.user) {
